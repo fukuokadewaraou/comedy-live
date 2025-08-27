@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- タブに表示されるタイトル -->
+  <title>福岡で笑おう！</title>
+
+  <meta name="description" content="福岡のお笑いライブ初心者向けガイド。劇場への行き方、手引き、タイムツリーのカレンダー、芸人インタビュー、ブログなど。" />
+  <link rel="icon" href="favicon.ico" />
+
+  <!-- OGP（必要に応じて差し替え） -->
+  <meta property="og:title" content="福岡で笑おう！" />
+  <meta property="og:description" content="福岡を第3のお笑いの街に。行き方・手引き・カレンダー・インタビュー。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://example.com" />
+  <meta property="og:image" content="https://example.com/ogp.jpg" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <a class="skip" href="#main">本文へスキップ</a>
+
+  <header>
+    <div class="container nav">
+      <!-- ロゴ（常に全体が表示されるよう等比で縮小） -->
+      <a href="#top" aria-label="トップへ">
+        <img src="images/logo.png"
+             alt="福岡で笑おう！ロゴ"
+             class="logo-img"
+             width="1100" height="400">
+      </a>
+
+      <!-- グローバルメニュー -->
+      <nav class="menu" aria-label="グローバルメニュー">
+        <a href="#about">ABOUT</a>
+        <a href="#calendar">カレンダー</a>
+        <a href="#guide">手引き</a>
+        <a href="#access">劇場への行き方</a>
+        <a href="#interviews">インタビュー</a>
+        <a href="#blog">ブログ</a>
+      </nav>
+
+      <!-- モバイル用 -->
+      <button class="menu-btn" aria-label="メニュー" aria-expanded="false">☰</button>
+    </div>
+
+    <!-- モバイルドロワー -->
+    <div class="drawer" id="drawer" aria-hidden="true" role="dialog" aria-label="モバイルメニュー">
+      <div class="drawer-panel">
+        <p class="drawer-title">メニュー</p>
+        <a href="#about">ABOUT</a>
+        <a href="#calendar">カレンダー</a>
+        <a href="#guide">手引き</a>
+        <a href="#access">劇場への行き方</a>
+        <a href="#interviews">インタビュー</a>
+        <a href="#blog">ブログ</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ヒーロー -->
+    <section class="hero container" id="top">
+      <h1 class="title">福岡で笑おう！</h1>
+      <p class="subtitle">福岡を第3のお笑いの街に</p>
+      <p class="lead">
+        初めてでも迷わない「手引き」、劇場への行き方、タイムツリーのカレンダー、<br class="br-md">
+        社会人芸人さんのインタビュー、ライブの感想ブログまで一つに。
+      </p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#guide">まずは手引きを読む</a>
+        <a class="btn btn-ghost" href="#calendar">今週のライブをチェック</a>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="container section" id="about">
+      <h2>ABOUT</h2>
+      <p class="sub">
+        福岡のお笑いライブに行ったことがない人向けに、行き方や魅力をやさしく案内するサイトです。<br>
+        放課後や仕事終わりにふらっと楽しめる「新しい選択肢」として、お笑いライブを。
+      </p>
+      <div class="about-cards grid grid-3">
+        <article class="card">
+          <h3>なぜ作った？</h3>
+          <p>笑うと気分が晴れ、健康面にも良い影響があるから。もっと気軽に“行ってみよう”と思える情報をまとめます。</p>
+        </article>
+        <article class="card">
+          <h3>誰のため？</h3>
+          <p>「どこで・いつ・誰が出るか分からない」を解消したい、学生・新社会人・初めての人のために。</p>
+        </article>
+        <article class="card">
+          <h3>なにが分かる？</h3>
+          <p>手引き／行き方動画／カレンダー／インタビュー／ブログまで、入門〜深掘りが一本化。</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- カレンダー（TimeTree埋め込み） -->
+    <section class="container section" id="calendar">
+        <h2>お笑いライブ情報カレンダー</h2>
+        <div class="embed-box" style="aspect-ratio:auto; border:none; padding:0;">
+          <!-- ここに丸ごと貼り替え -->
+          <iframe title="Calendar" src="https://timetreeapp.com/public_calendars/fukuokadewaraou/embed/monthly?calendar_name=true&frame_color=%232ecc87" style="width:100%;min-height:700px;aspect-ratio:680/720;border:none"></iframe>
+        </div>
+      </section>
+
+    <!-- 手引き（アコーディオン） -->
+    <section class="container section" id="guide">
+      <h2>お笑いライブの手引き（初めての人向け）</h2>
+      <p class="sub">チケットの買い方から当日の楽しみ方まで、3分でサクッと。</p>
+
+      <div class="accordion" id="guide-acc">
+        <div class="acc-item">
+          <button class="acc-btn">1. チケットの買い方 <span>＋</span></button>
+          <div class="acc-panel">
+            <p>公式サイト／プレイガイド／当日券など。入場順や整理番号もチェックしておくと安心。</p>
+          </div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn">2. 予約〜当日までにやること <span>＋</span></button>
+          <div class="acc-panel">
+            <p>開場・開演時間、会場の場所、支払い方法を確認。遅刻しそうな場合のルールも見ておく。</p>
+          </div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn">3. 当日の持ち物とマナー <span>＋</span></button>
+          <div class="acc-panel">
+            <p>撮影NGの場合が多いです。着席後はスマホ消音。差し入れの可否は劇場ルールに従う。</p>
+          </div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn">4. 座席の見え方とおすすめ <span>＋</span></button>
+          <div class="acc-panel">
+            <p>前方は臨場感、後方は俯瞰。中央ブロックは音・視界のバランス良し。</p>
+          </div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn">5. 当日の楽しみ方 <span>＋</span></button>
+          <div class="acc-panel">
+            <p>推しを見つける／コンビの化学反応に注目／終演後の余韻をSNSやメモに残す、など。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 劇場への行き方（YouTube埋め込み） -->
+    <section class="container section" id="access">
+      <h2>劇場への行き方（動画）</h2>
+      <p class="sub">1〜2分のショート動画で迷わず到着。</p>
+      <div class="grid grid-2">
+        <article class="card">
+          <div class="video">
+            <!-- YouTubeのIDに差し替え -->
+            <iframe src="https://www.youtube.com/embed/VIDEO_ID_1" title="劇場Aへの行き方" loading="lazy" allowfullscreen></iframe>
+          </div>
+          <div class="card-body">
+            <h3>劇場Aへの行き方</h3>
+          </div>
+        </article>
+        <article class="card">
+          <div class="video">
+            <iframe src="https://www.youtube.com/embed/VIDEO_ID_2" title="劇場Bへの行き方" loading="lazy" allowfullscreen></iframe>
+          </div>
+          <div class="card-body">
+            <h3>劇場Bへの行き方</h3>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- インタビュー（7組：前半文字起こし／後半動画） -->
+    <section class="container section" id="interviews">
+      <h2>インタビュー（7組）</h2>
+      <p class="sub">前半は文字起こし、後半はYouTube動画で全編視聴。</p>
+
+      <div class="interview-list">
+        <!-- 1組目（以降、同じ構造で7組分） -->
+        <article class="interview">
+          <header class="interview-head">
+            <h3>コンビA インタビュー</h3>
+            <time datetime="2025-07-10" class="eyebrow">2025-07-10</time>
+          </header>
+          <div class="transcript">
+            <h4>— 文字起こし（抜粋） —</h4>
+            <p>Q: 結成のきっかけは？<br> A: ・・・（ここに文字起こしを貼り付け）</p>
+            <p>Q: ネタ作りの流れは？<br> A: ・・・</p>
+          </div>
+          <div class="video">
+            <iframe src="https://www.youtube.com/embed/YT_ID_01" title="コンビA インタビュー動画" loading="lazy" allowfullscreen></iframe>
+          </div>
+        </article>
+
+        <!-- 2〜7組目（ダミー） -->
+        <article class="interview">
+          <header class="interview-head">
+            <h3>コンビB インタビュー</h3>
+            <time datetime="2025-07-15" class="eyebrow">2025-07-15</time>
+          </header>
+          <div class="transcript"><p>・・・（文字起こし）</p></div>
+          <div class="video"><iframe src="https://www.youtube.com/embed/YT_ID_02" title="コンビB インタビュー動画" loading="lazy" allowfullscreen></iframe></div>
+        </article>
+
+        <article class="interview">
+          <header class="interview-head">
+            <h3>ピンC インタビュー</h3>
+            <time datetime="2025-07-22" class="eyebrow">2025-07-22</time>
+          </header>
+          <div class="transcript"><p>・・・（文字起こし）</p></div>
+          <div class="video"><iframe src="https://www.youtube.com/embed/YT_ID_03" title="ピンC インタビュー動画" loading="lazy" allowfullscreen></iframe></div>
+        </article>
+
+        <article class="interview">
+          <header class="interview-head">
+            <h3>コンビD インタビュー</h3>
+            <time datetime="2025-07-28" class="eyebrow">2025-07-28</time>
+          </header>
+          <div class="transcript"><p>・・・（文字起こし）</p></div>
+          <div class="video"><iframe src="https://www.youtube.com/embed/YT_ID_04" title="コンビD インタビュー動画" loading="lazy" allowfullscreen></iframe></div>
+        </article>
+
+        <article class="interview">
+          <header class="interview-head">
+            <h3>コンビE インタビュー</h3>
+            <time datetime="2025-08-02" class="eyebrow">2025-08-02</time>
+          </header>
+          <div class="transcript"><p>・・・（文字起こし）</p></div>
+          <div class="video"><iframe src="https://www.youtube.com/embed/YT_ID_05" title="コンビE インタビュー動画" loading="lazy" allowfullscreen></iframe></div>
+        </article>
+
+        <article class="interview">
+          <header class="interview-head">
+            <h3>トリオF インタビュー</h3>
+            <time datetime="2025-08-08" class="eyebrow">2025-08-08</time>
+          </header>
+          <div class="transcript"><p>・・・（文字起こし）</p></div>
+          <div class="video"><iframe src="https://www.youtube.com/embed/YT_ID_06" title="トリオF インタビュー動画" loading="lazy" allowfullscreen></iframe></div>
+        </article>
+
+        <article class="interview">
+          <header class="interview-head">
+            <h3>コンビG インタビュー</h3>
+            <time datetime="2025-08-16" class="eyebrow">2025-08-16</time>
+          </header>
+          <div class="transcript"><p>・・・（文字起こし）</p></div>
+          <div class="video"><iframe src="https://www.youtube.com/embed/YT_ID_07" title="コンビG インタビュー動画" loading="lazy" allowfullscreen></iframe></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ブログ（noteリンク） -->
+    <section class="container section" id="blog">
+      <h2>ブログ（note）</h2>
+      <p class="sub">ライブの感想や様子をnoteで更新予定。この記事一覧をリンクでまとめます。</p>
+
+      <ul class="note-list">
+        <!-- リンク例：URL準備できたら差し替え -->
+        <li><a href="https://note.com/your_name/n/EXAMPLE" target="_blank" rel="noopener">【レポ】○月○日 ライブに行ってきた</a></li>
+        <li><a href="https://note.com/your_name/n/EXAMPLE" target="_blank" rel="noopener">初めてのお笑いライブのすすめ</a></li>
+      </ul>
+
+      <!-- ※noteのカード埋め込み用コードがあれば、下のembed-boxにiframeで差し替え可能 -->
+      <!--
+      <div class="embed-box">
+        <iframe src="NOTE_EMBED_URL" title="note記事" loading="lazy" allowfullscreen></iframe>
+      </div>
+      -->
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>© 2025 福岡で笑おう！</p>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
