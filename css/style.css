@@ -238,3 +238,55 @@
     }
   }
   
+  /* ========== Noren Intro ========== */
+.noren-intro{
+  position:fixed; inset:0; z-index:2000;
+  display:grid; place-items:center;
+  background:var(--bg, #0b1c34); /* 既存のネイビー変数があればそれに置換 */
+  /* 初期は静止。JSで .play が付いたらアニメ開始 */
+  pointer-events:none;
+}
+.noren-intro .noren-frame{
+  position:absolute; inset:0;
+  display:grid; place-items:center;
+}
+.noren-intro img{ max-width:100%; max-height:100%; width:100%; height:auto; }
+
+/* フレーム個別：1は最初に見せてから薄く、2は少し下からスッと上がってくる */
+.noren-intro.play .noren-frame-1{
+  animation: norenFade 1.6s ease forwards;
+}
+.noren-intro.play .noren-frame-2{
+  animation: norenReveal 1.6s ease forwards;
+  animation-delay: .25s; /* ちょい遅れてめくれ */
+}
+
+/* 全体のオーバーレイを最後にフェードアウトして非表示化 */
+.noren-intro.play{
+  animation: norenOverlayOut .7s ease forwards;
+  animation-delay: 1.7s; /* 2枚目が出きった後に消える */
+}
+
+@keyframes norenFade{
+  0%{ opacity:1; }
+  70%{ opacity:.35; }
+  100%{ opacity:0; }
+}
+@keyframes norenReveal{
+  0%{ transform: translateY(14px); opacity:0; }
+  50%{ opacity:1; }
+  100%{ transform: translateY(0); opacity:1; }
+}
+@keyframes norenOverlayOut{
+  to{ opacity:0; visibility:hidden; }
+}
+
+/* 動きを苦手とする環境への配慮 */
+@media (prefers-reduced-motion: reduce){
+  .noren-intro.play .noren-frame-1,
+  .noren-intro.play .noren-frame-2,
+  .noren-intro.play{
+    animation: none;
+  }
+  .noren-intro{ display:none; }
+}

@@ -135,3 +135,24 @@
   measure();
   start();
 })();
+
+// ===== Noren Intro =====
+(function(){
+  const intro = document.querySelector('.noren-intro');
+  if(!intro) return;
+
+  // もし「初回だけ」表示したいなら下の2行のコメントアウトを外す
+  // if (localStorage.getItem('norenPlayed') === '1'){ intro.remove(); return; }
+
+  // 画像の読み込みが早い環境でも確実に始まるように
+  window.requestAnimationFrame(()=> intro.classList.add('play'));
+
+  // 全アニメ終了後にDOMから除去
+  intro.addEventListener('animationend', (e)=>{
+    if(e.target === intro){ // オーバーレイ自身のアニメが終わった
+      // localStorage.setItem('norenPlayed', '1'); // ←初回だけにする場合はこちらもON
+      intro.remove();
+    }
+  });
+})();
+
