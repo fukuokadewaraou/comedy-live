@@ -1,4 +1,4 @@
-// ===== のれんイントロ：再生＆外す =====
+// ===== のれんイントロ：再生→外す =====
 (function(){
   const intro = document.querySelector('.noren-intro');
   if(!intro) return;
@@ -11,7 +11,7 @@
   }, 5200);
 })();
 
-// ===== ハンバーガーの開閉 =====
+// ===== ハンバーガー =====
 (function(){
   const burger = document.querySelector('.burger');
   const drawer = document.getElementById('drawer');
@@ -39,23 +39,27 @@
   closeBtn?.addEventListener('click', close);
   drawer?.addEventListener('click', e => { if(e.target === drawer) close(); });
   links?.forEach(a => a.addEventListener('click', close));
+
+  // 背景色によってバーの色を切り替える（赤ゾーン上ならクリーム）
+  const redSections = document.querySelectorAll('.red-bg, .interviews');
+  const io = new IntersectionObserver((entries)=>{
+    // 画面上部に赤ゾーンが一定割合入ったら light を付与
+    const onRed = entries.some(en => en.isIntersecting && en.intersectionRatio > 0.2);
+    burger.classList.toggle('light', onRed);
+  }, {threshold:[0.0,0.2,0.4,0.6,0.8,1.0]});
+  redSections.forEach(sec => io.observe(sec));
 })();
 
-// ===== 手引き：横ボタンのアコーディオン =====
+// ===== 手引き：横書きボタンの簡易アコーディオン =====
 (function(){
-  document.querySelectorAll('.gitem .ghead').forEach(head=>{
-    head.addEventListener('click', ()=>{
-      const item = head.closest('.gitem');
-      const open = item.classList.contains('open');
-      // 他を閉じる
-      document.querySelectorAll('.gitem.open').forEach(it=>{
-        if(it!==item) it.classList.remove('open');
-      });
-      // 自分をトグル
-      item.classList.toggle('open', !open);
-      // ＋／− 表示
-      const plus = head.querySelector('.gplus');
-      if(plus) plus.textContent = (!open ? '−' : '＋');
+  document.querySelectorAll('.guide-toggle').forEach(btn=>{
+    const row = btn.closest('.guide-row');
+    const panel = document.getElementById(btn.getAttribute('aria-controls'));
+    btn.addEventListener('click', ()=>{
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      row.setAttribute('aria-expanded', String(!expanded));
+      panel.hidden = expanded; // trueなら閉じる
     });
   });
 })();
@@ -75,7 +79,7 @@
     index = (i + cards.length) % cards.length;
     const w = cards[0].getBoundingClientRect().width;
     const gap = parseFloat(getComputedStyle(track).gap) || 16;
-    const step = w + gap; // PCもSPも同じ式（カード幅はCSS側で変化）
+    const step = w + gap; // PCは3枚幅に応じてCSSで調整される
     track.style.transform = `translateX(${-index * step}px)`;
   }
   prev.addEventListener('click', ()=> update(index-1));
@@ -90,24 +94,4 @@
   update(0);
   root.addEventListener('mouseenter', stop);
   root.addEventListener('mouseleave', play);
-})();
-
-// ===== ハンバーガーの色を背景に合わせて自動切替（赤地ではクリーム色） =====
-(function(){
-  const burger = document.querySelector('.burger');
-  if(!burger) return;
-  const options = { root: null, threshold: 0.4 };
-  function onIntersect(entries){
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){
-        burger.classList.add('burger--light');
-      }else{
-        burger.classList.remove('burger--light');
-      }
-    });
-  }
-  document.querySelectorAll('.red-bg').forEach(sec=>{
-    const io = new IntersectionObserver(onIntersect, options);
-    io.observe(sec);
-  });
 })();
