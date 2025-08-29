@@ -11,7 +11,7 @@
   }, 5200);
 })();
 
-// ===== ハンバーガー =====
+// ===== ハンバーガーの開閉 =====
 (function(){
   const burger = document.querySelector('.burger');
   const drawer = document.getElementById('drawer');
@@ -41,67 +41,21 @@
   links?.forEach(a => a.addEventListener('click', close));
 })();
 
-// ===== 手引き：白カード内蔵アコーディオン（スライド＋フェード） =====
+// ===== 手引き：横ボタンのアコーディオン =====
 (function(){
-  const btns = Array.from(document.querySelectorAll('.tanzaku-wrap .tanzaku'));
-  if(!btns.length) return;
-
-  const closeAll = (exceptBtn) => {
-    btns.forEach(b=>{
-      if(b === exceptBtn) return;
-      b.setAttribute('aria-expanded','false');
-      const p = b.nextElementSibling;
-      if(p && p.classList.contains('tpanel')){
-        slideUp(p);
-      }
-    });
-  };
-
-  const slideDown = (el)=>{
-    el.hidden = false;
-    el.classList.add('show');
-    // 自然高さを計測してmax-heightに反映
-    const target = el.scrollHeight;
-    el.style.maxHeight = target + 'px';
-    // 遷移終了後にmax-heightをauto相当に（大きな値）しておく
-    el.addEventListener('transitionend', function tidy(e){
-      if(e.propertyName === 'max-height'){
-        el.style.maxHeight = target + 'px';
-        el.removeEventListener('transitionend', tidy);
-      }
-    });
-  };
-
-  const slideUp = (el)=>{
-    const current = el.scrollHeight;
-    el.style.maxHeight = current + 'px';
-    requestAnimationFrame(()=>{
-      el.classList.remove('show'); // opacity/paddingを戻す
-      el.style.maxHeight = '0px';
-    });
-    el.addEventListener('transitionend', function done(e){
-      if(e.propertyName === 'max-height'){
-        el.hidden = true;
-        el.removeEventListener('transitionend', done);
-      }
-    });
-  };
-
-  btns.forEach(btn=>{
-    const panel = btn.nextElementSibling;
-    if(panel && panel.classList.contains('tpanel')) panel.hidden = true;
-
-    btn.addEventListener('click', ()=>{
-      const expanded = btn.getAttribute('aria-expanded') === 'true';
-      if(expanded){
-        btn.setAttribute('aria-expanded','false');
-        panel && slideUp(panel);
-      }else{
-        closeAll(btn);
-        btn.setAttribute('aria-expanded','true');
-        panel && slideDown(panel);
-        panel?.scrollIntoView({behavior:'smooth', block:'start', inline:'nearest'});
-      }
+  document.querySelectorAll('.gitem .ghead').forEach(head=>{
+    head.addEventListener('click', ()=>{
+      const item = head.closest('.gitem');
+      const open = item.classList.contains('open');
+      // 他を閉じる
+      document.querySelectorAll('.gitem.open').forEach(it=>{
+        if(it!==item) it.classList.remove('open');
+      });
+      // 自分をトグル
+      item.classList.toggle('open', !open);
+      // ＋／− 表示
+      const plus = head.querySelector('.gplus');
+      if(plus) plus.textContent = (!open ? '−' : '＋');
     });
   });
 })();
@@ -121,7 +75,7 @@
     index = (i + cards.length) % cards.length;
     const w = cards[0].getBoundingClientRect().width;
     const gap = parseFloat(getComputedStyle(track).gap) || 16;
-    const step = (w + gap); // SP/PCとも1枚ぶん（PCは3枚見せでも1枚ずつ送る）
+    const step = w + gap; // PCもSPも同じ式（カード幅はCSS側で変化）
     track.style.transform = `translateX(${-index * step}px)`;
   }
   prev.addEventListener('click', ()=> update(index-1));
@@ -134,7 +88,26 @@
 
   if(root.dataset.autoplay === 'true') play();
   update(0);
-
   root.addEventListener('mouseenter', stop);
   root.addEventListener('mouseleave', play);
+})();
+
+// ===== ハンバーガーの色を背景に合わせて自動切替（赤地ではクリーム色） =====
+(function(){
+  const burger = document.querySelector('.burger');
+  if(!burger) return;
+  const options = { root: null, threshold: 0.4 };
+  function onIntersect(entries){
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        burger.classList.add('burger--light');
+      }else{
+        burger.classList.remove('burger--light');
+      }
+    });
+  }
+  document.querySelectorAll('.red-bg').forEach(sec=>{
+    const io = new IntersectionObserver(onIntersect, options);
+    io.observe(sec);
+  });
 })();
