@@ -1,158 +1,140 @@
-// ========== ハンバーガー / ドロワー ==========
-(function(){
-  const btn     = document.querySelector('.menu-btn');
-  const drawer  = document.getElementById('drawer');
-  const panel   = drawer ? drawer.querySelector('.drawer-panel') : null;
-  const closeBtn= drawer ? drawer.querySelector('.drawer-close') : null;
-  const links   = drawer ? drawer.querySelectorAll('.drawer-link') : [];
-
-  function open(){
-    if (!drawer) return;
-    drawer.classList.add('open');
-    document.body.classList.add('no-scroll');
-  }
-  function closeWithAnimation(){
-    if (!drawer || !panel) return;
-    if (!drawer.classList.contains('open')) return;
-    if (panel.classList.contains('closing')) return;
-    panel.classList.add('closing');
-    const onEnd = () => {
-      panel.classList.remove('closing');
-      drawer.classList.remove('open');
-      document.body.classList.remove('no-scroll');
-      panel.removeEventListener('animationend', onEnd);
-    };
-    panel.addEventListener('animationend', onEnd);
-  }
-
-  btn && btn.addEventListener('click', open);
-  closeBtn && closeBtn.addEventListener('click', closeWithAnimation);
-  drawer && drawer.addEventListener('click', (e)=>{ if (e.target === drawer) closeWithAnimation(); });
-  links.forEach(a => a.addEventListener('click', closeWithAnimation));
-  window.addEventListener('keydown', (e)=>{ if (e.key === 'Escape' && drawer && drawer.classList.contains('open')) closeWithAnimation(); });
-})();
-
-// ========== 手引き（アコーディオン） ==========
-(function(){
-  const acc = document.getElementById('guide-acc');
-  if (!acc) return;
-  acc.addEventListener('click', (e)=>{
-    const btn = e.target.closest('.acc-btn');
-    if (!btn) return;
-    const item = btn.parentElement;
-    const sign = btn.querySelector('span');
-    const isOpen = item.classList.toggle('open');
-    if (sign) sign.textContent = isOpen ? '−' : '＋';
-  });
-})();
-
-// ========== インタビュー・カルーセル（自動＋左右ボタン） ==========
-(function(){
-  const root = document.querySelector('#interviews .carousel, #featured-interviews .carousel');
-  if (!root) return;
-
-  const viewport = root.querySelector('.carousel-viewport');
-  const track    = root.querySelector('.carousel-track');
-  const btnPrev  = root.querySelector('.carousel-btn.prev');
-  const btnNext  = root.querySelector('.carousel-btn.next');
-
-  // 実スライド（最初の状態）
-  let cards = Array.from(track.children);
-  if (!cards.length) return;
-
-  // 無限ループ用に前後を複製（1枚ずつ）
-  const first = cards[0].cloneNode(true);
-  const last  = cards[cards.length - 1].cloneNode(true);
-  track.insertBefore(last, cards[0]);
-  track.appendChild(first);
-
-  // 再取得
-  cards = Array.from(track.children); // [last(clone), real1, real2, ..., realN, first(clone)]
-  let index = 1; // real1 から開始
-  let slideWidth = 0;
-  let gap = 16;
-  let centerOffset = 0;
-  let timer = null;
-  const interval = Number(root.getAttribute('data-interval') || 4000);
-  const autoplay = root.getAttribute('data-autoplay') !== 'false';
-
-  function measure(){
-    const real = track.children[1]; // real1
-    const rect = real.getBoundingClientRect();
-    slideWidth = rect.width;
-
-    const stylesTrack = getComputedStyle(track);
-    gap = parseFloat(stylesTrack.columnGap || stylesTrack.gap) || 16;
-
-    const stylesVp = getComputedStyle(viewport);
-    const vpWidth  = viewport.getBoundingClientRect().width;
-    const padLeft  = parseFloat(stylesVp.paddingLeft) || 0;
-
-    centerOffset = (vpWidth - slideWidth)/2 - padLeft;
-
-    // 初期配置
-    moveTo(index, false);
-    markCenter();
-  }
-
-  function moveTo(i, animate=true){
-    if (!animate) track.style.transition = 'none';
-    const x = -(i * (slideWidth + gap)) + centerOffset;
-    track.style.transform = `translateX(${x}px)`;
-    if (!animate){
-      requestAnimationFrame(()=>{ track.style.transition = 'transform .5s ease'; });
-    }
-  }
-
-  function markCenter(){
-    Array.from(track.children).forEach(el => el.classList.remove('is-center'));
-    const el = track.children[index];
-    if (el) el.classList.add('is-center');
-  }
-
-  function next(){ index++; moveTo(index, true); }
-  function prev(){ index--; moveTo(index, true); }
-
-  track.addEventListener('transitionend', ()=>{
-    const total = track.children.length;
-    if (index === total - 1){ // last is first-clone
-      index = 1; moveTo(index, false);
-    }else if (index === 0){   // first is last-clone
-      index = total - 2; moveTo(index, false);
-    }
-    markCenter();
-  });
-
-  btnNext && btnNext.addEventListener('click', ()=>{ stop(); next(); start(); });
-  btnPrev && btnPrev.addEventListener('click', ()=>{ stop(); prev(); start(); });
-
-  function start(){ if (autoplay){ stop(); timer = setInterval(next, interval); } }
-  function stop(){ if (timer){ clearInterval(timer); timer = null; } }
-
-  window.addEventListener('resize', measure, { passive:true });
-
-  // 初期化
-  measure();
-  start();
-})();
-
-// ===== Noren Intro =====
+// ===== のれんイントロ：再生＆外す =====
 (function(){
   const intro = document.querySelector('.noren-intro');
   if(!intro) return;
+  document.body.classList.add('no-scroll');
+  requestAnimationFrame(()=> intro.classList.add('play'));
+  // 総尺 ~5.2s でDOMから除去
+  setTimeout(()=>{
+    intro.remove();
+    document.body.classList.remove('no-scroll');
+  }, 5200);
+})();
 
-  // もし「初回だけ」表示したいなら下の2行のコメントアウトを外す
-  // if (localStorage.getItem('norenPlayed') === '1'){ intro.remove(); return; }
+// ===== ハンバーガー =====
+(function(){
+  const burger = document.querySelector('.burger');
+  const drawer = document.getElementById('drawer');
+  const closeBtn = drawer?.querySelector('.drawer-close');
+  const links = drawer?.querySelectorAll('.drawer-link');
 
-  // 画像の読み込みが早い環境でも確実に始まるように
-  window.requestAnimationFrame(()=> intro.classList.add('play'));
+  function open(){
+    drawer.classList.add('open');
+    burger.setAttribute('aria-expanded','true');
+    drawer.setAttribute('aria-hidden','false');
+    document.body.classList.add('no-scroll');
+  }
+  function close(){
+    const panel = drawer.querySelector('.drawer-panel');
+    panel.classList.add('closing');
+    setTimeout(()=>{
+      drawer.classList.remove('open');
+      panel.classList.remove('closing');
+      burger.setAttribute('aria-expanded','false');
+      drawer.setAttribute('aria-hidden','true');
+      document.body.classList.remove('no-scroll');
+    }, 180);
+  }
+  burger?.addEventListener('click', open);
+  closeBtn?.addEventListener('click', close);
+  drawer?.addEventListener('click', e => { if(e.target === drawer) close(); });
+  links?.forEach(a => a.addEventListener('click', close));
+})();
 
-  // 全アニメ終了後にDOMから除去
-  intro.addEventListener('animationend', (e)=>{
-    if(e.target === intro){ // オーバーレイ自身のアニメが終わった
-      // localStorage.setItem('norenPlayed', '1'); // ←初回だけにする場合はこちらもON
-      intro.remove();
-    }
+// ===== 手引き：白カード内蔵アコーディオン（スライド＋フェード） =====
+(function(){
+  const btns = Array.from(document.querySelectorAll('.tanzaku-wrap .tanzaku'));
+  if(!btns.length) return;
+
+  const closeAll = (exceptBtn) => {
+    btns.forEach(b=>{
+      if(b === exceptBtn) return;
+      b.setAttribute('aria-expanded','false');
+      const p = b.nextElementSibling;
+      if(p && p.classList.contains('tpanel')){
+        slideUp(p);
+      }
+    });
+  };
+
+  const slideDown = (el)=>{
+    el.hidden = false;
+    el.classList.add('show');
+    // 自然高さを計測してmax-heightに反映
+    const target = el.scrollHeight;
+    el.style.maxHeight = target + 'px';
+    // 遷移終了後にmax-heightをauto相当に（大きな値）しておく
+    el.addEventListener('transitionend', function tidy(e){
+      if(e.propertyName === 'max-height'){
+        el.style.maxHeight = target + 'px';
+        el.removeEventListener('transitionend', tidy);
+      }
+    });
+  };
+
+  const slideUp = (el)=>{
+    const current = el.scrollHeight;
+    el.style.maxHeight = current + 'px';
+    requestAnimationFrame(()=>{
+      el.classList.remove('show'); // opacity/paddingを戻す
+      el.style.maxHeight = '0px';
+    });
+    el.addEventListener('transitionend', function done(e){
+      if(e.propertyName === 'max-height'){
+        el.hidden = true;
+        el.removeEventListener('transitionend', done);
+      }
+    });
+  };
+
+  btns.forEach(btn=>{
+    const panel = btn.nextElementSibling;
+    if(panel && panel.classList.contains('tpanel')) panel.hidden = true;
+
+    btn.addEventListener('click', ()=>{
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      if(expanded){
+        btn.setAttribute('aria-expanded','false');
+        panel && slideUp(panel);
+      }else{
+        closeAll(btn);
+        btn.setAttribute('aria-expanded','true');
+        panel && slideDown(panel);
+        panel?.scrollIntoView({behavior:'smooth', block:'start', inline:'nearest'});
+      }
+    });
   });
 })();
 
+// ===== インタビュー：カルーセル（自動＆左右ボタン） =====
+(function(){
+  const root = document.querySelector('.carousel');
+  if(!root) return;
+  const track = root.querySelector('.carousel-track');
+  const cards = Array.from(root.querySelectorAll('.carousel-card'));
+  const prev = root.querySelector('.prev');
+  const next = root.querySelector('.next');
+  const interval = Number(root.dataset.interval || 4000);
+
+  let index = 0;
+  function update(i){
+    index = (i + cards.length) % cards.length;
+    const w = cards[0].getBoundingClientRect().width;
+    const gap = parseFloat(getComputedStyle(track).gap) || 16;
+    const step = (w + gap); // SP/PCとも1枚ぶん（PCは3枚見せでも1枚ずつ送る）
+    track.style.transform = `translateX(${-index * step}px)`;
+  }
+  prev.addEventListener('click', ()=> update(index-1));
+  next.addEventListener('click', ()=> update(index+1));
+  window.addEventListener('resize', ()=> update(index));
+
+  let timer = null;
+  function play(){ stop(); timer = setInterval(()=> update(index+1), interval); }
+  function stop(){ if(timer){ clearInterval(timer); timer=null; } }
+
+  if(root.dataset.autoplay === 'true') play();
+  update(0);
+
+  root.addEventListener('mouseenter', stop);
+  root.addEventListener('mouseleave', play);
+})();

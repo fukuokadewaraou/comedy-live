@@ -1,292 +1,266 @@
 /* ================================
-   ベース
-   ================================ */
-   :root{
-    --bg:#0b1e3a;      /* ネイビー基調 */
-    --fg:#f5f8ff;      /* 文字（明） */
-    --muted:#b8c4dd;   /* 補助文字 */
-    --brand:#ff7043;   /* 見出し・強調：ちょうちんオレンジ */
-    --brand-2:#93c5fd; /* リンク：淡いブルー */
-    --ring:0 0 0 3px rgba(147,197,253,.45);
-  }
-  
-  *{ box-sizing:border-box; }
-  html,body{ height:100%; }
-  body{
-    margin:0;
-    font-family:system-ui, -apple-system, Segoe UI, Roboto,
-      "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", Meiryo, sans-serif;
-    color:var(--fg); background:var(--bg); line-height:1.65;
-  }
-  img{ max-width:100%; height:auto; display:block; }
-  a{ color:var(--brand-2); text-decoration:none; }
-  a:focus{ outline:none; box-shadow:var(--ring); border-radius:.5rem; }
-  
-  .container{ width:min(1100px,92%); margin:0 auto; }
-  
-  /* ===== ヘッダー / ナビ ===== */
-  header{
-    position:sticky; top:0; z-index:50;
-    background:rgba(11,30,58,.85);
-    backdrop-filter:blur(8px);
-    border-bottom:1px solid rgba(255,255,255,.08);
-  }
-  .nav{
-    position:relative;
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    padding:.75rem 0;
-  }
-  
-  /* ロゴ */
-  .logo-img{ width:clamp(220px, 28vw, 420px); height:auto; margin-bottom:.5rem; }
-  
-  /* メニュー（PC） */
-  .menu{ display:none; gap:.75rem; justify-content:center; }
-  .menu a{ padding:.4rem .7rem; border-radius:999px; color:var(--fg); }
-  .menu a:hover{ background:rgba(255,255,255,.08); }
-  
-  /* ハンバーガー（SP右上固定） */
-  .menu-btn{
-    position:absolute; right:.75rem; top:.65rem;
-    background:transparent; border:none; font-size:1.8rem; line-height:1; cursor:pointer;
-    padding:.25rem .4rem; border-radius:.5rem; color:var(--fg);
-  }
-  
-  /* ===== ドロワー（上から降りる） ===== */
-  .drawer{ position:fixed; inset:0; background:rgba(0,0,0,.5); display:none; z-index:1000; }
-  .drawer.open{ display:block; }
-  .drawer-panel{
-    position:absolute; left:0; right:0; top:0;
-    width:100%; max-height:85vh; overflow:auto;
-    background:#0f2242; color:#e8eeff;
-    border-bottom-left-radius:1rem; border-bottom-right-radius:1rem;
-    box-shadow:0 10px 30px rgba(0,0,0,.35);
-    transform:translateY(-16px);
-    animation: dropIn .22s ease forwards;
-  }
-  @keyframes dropIn{ to{ transform:translateY(0);} }
-  .drawer-panel.closing{ animation: dropOut .18s ease forwards; }
-  @keyframes dropOut{ from{transform:translateY(0);opacity:1;} to{transform:translateY(-16px);opacity:0;} }
-  
-  .drawer-title{ font-weight:700; margin:1rem 1rem .5rem; }
-  .drawer a{ display:block; padding:1rem; border-top:1px solid rgba(255,255,255,.08); color:#e8eeff; }
-  .drawer a:hover{ background:rgba(255,255,255,.06); }
-  .drawer-close{
-    position:absolute; right:.5rem; top:.5rem;
-    background:transparent; border:none; font-size:1.6rem; line-height:1; cursor:pointer;
-    padding:.25rem .4rem; border-radius:.5rem; color:#e8eeff;
-  }
-  body.no-scroll{ overflow:hidden; touch-action:none; }
-  
-  /* PC時 */
-  @media (min-width:768px){
-    .menu{ display:flex; }
-    .menu-btn{ display:none; }
-    .drawer{ display:none !important; }
-  }
-  
-  /* ===== セクション／テキスト ===== */
-  .section{ padding:2.5rem 0; }
-  .section h2{ font-size:clamp(22px,3.2vw,32px); margin:0 0 1rem; color:var(--brand); }
-  .sub{ color:var(--muted); margin-bottom:1.2rem; }
-  .lead{ color:#d9e3ff; max-width:70ch; margin:0 auto; }
-  
-  /* グリッド */
-  .grid{ display:grid; grid-template-columns:1fr; gap:1rem; }
-  .grid-2{ grid-template-columns:1fr; }
-  .grid-3{ grid-template-columns:1fr; }
-  @media (min-width:640px){ .grid-2{ grid-template-columns:repeat(2,1fr);} }
-  @media (min-width:900px){ .grid-3{ grid-template-columns:repeat(3,1fr);} }
-  
-  /* カード */
-  .card{
-    border:1px solid rgba(255,255,255,.08); border-radius:1rem; overflow:hidden; background:#0f2242;
-    transition:transform .2s ease, box-shadow .2s ease;
-  }
-  .card:hover{ transform:translateY(-2px); box-shadow:0 10px 24px rgba(0,0,0,.35); }
-  .card-body{ padding:1rem; }
-  .eyebrow{ font-size:.85rem; color:var(--muted); }
-  
-  /* 埋め込み・動画 */
-  .embed-box{
-    width:100%; border:1px solid rgba(255,255,255,.08); border-radius:.75rem; overflow:hidden;
-    background:#0f2242; aspect-ratio:16/10;
-  }
-  .embed-box iframe{ width:100%; height:100%; border:0; }
-  .video{ position:relative; width:100%; aspect-ratio:16/9; background:#000; border-radius:.75rem; overflow:hidden; }
-  .video iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
-  
-  /* ボタン */
-  .btn{ display:inline-flex; align-items:center; gap:.5rem; padding:.7rem 1.1rem; border-radius:999px; font-weight:700; border:1px solid rgba(255,255,255,.12); }
-  .btn-primary{ background:var(--brand); color:#fff; border-color:var(--brand); }
-  .btn-ghost{ background:transparent; color:#e8eeff; }
-  
-  /* フッター */
-  footer{ padding:2rem 0; color:var(--muted); border-top:1px solid rgba(255,255,255,.08); text-align:center; }
-  
-  /* スキップリンク */
-  .skip{ position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
-  .skip:focus{ left:1rem; top:1rem; width:auto; height:auto; background:#0f2242; padding:.5rem .75rem; border-radius:.5rem; box-shadow:var(--ring); }
-  
-  /* ===== アコーディオン（手引き） ===== */
-  .accordion{ border:1px solid rgba(255,255,255,.08); border-radius:.75rem; overflow:hidden; background:#0f2242; }
-  .acc-item + .acc-item{ border-top:1px solid rgba(255,255,255,.08); }
-  .acc-btn{
-    width:100%; text-align:left; padding:1rem; background:transparent; color:#e8eeff;
-    border:none; font:inherit; cursor:pointer; display:flex; justify-content:space-between; align-items:center;
-  }
-  .acc-btn:hover{ background:rgba(255,255,255,.06); }
-  .acc-panel{ padding:0 1rem 1rem; display:none; color:#d9e3ff; }
-  .acc-item.open .acc-panel{ display:block; }
-  
-  /* ===== インタビュー詳細 ===== */
-  .interview{ border:1px solid rgba(255,255,255,.08); border-radius:1rem; overflow:hidden; background:#0f2242; margin-bottom:1rem; }
-  .interview-head{ display:flex; gap:.5rem; align-items:baseline; padding:1rem 1rem .5rem; }
-  .interview-head h1, .interview-head h3{ margin:0; color:var(--brand); }
-  .transcript{ padding:0 1rem 1rem; color:#d9e3ff; background:#0b1e3a; }
-  .interview .video{ border-top:1px solid rgba(255,255,255,.08); }
-  
-  /* ===== note ===== */
-  .note-grid{ display:grid; grid-template-columns:1fr; gap:1rem; }
-  .note-card{ position:relative; border:1px solid rgba(255,255,255,.08); border-radius:1rem; overflow:hidden; background:#0f2242; display:block; }
-  .note-card img{ width:100%; height:200px; object-fit:cover; }
-  .note-title{ display:block; padding:.75rem 1rem; font-weight:700; color:#e8eeff; }
-  @media (min-width:700px){ .note-grid{ grid-template-columns:repeat(3,1fr); } }
-  
-  /* ===== のれん・ヒーロー（任意） ===== */
-  .noren-hero{
-    position:relative; min-height: 100dvh; display:grid; place-items:center;
-    background:
-      linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.35)),
-      url("../images/noren.jpg");
-    background-size: cover; background-position:center;
-  }
-  .noren-overlay{ text-align:center; color:#fff; padding:1rem; }
-  .noren-title{ font-size: clamp(32px, 7vw, 64px); margin:0 0 .25rem; font-weight:900; letter-spacing:.02em; }
-  .noren-sub{ font-size: clamp(16px, 3.4vw, 22px); margin:0 0 1rem; font-weight:700; }
-  .noren-cta{ backdrop-filter: blur(4px); }
-  
-  /* ===== クイックナビ（丸アイコン） ===== */
-  .quick-nav{
-    display:grid; gap:12px; grid-template-columns: repeat(5, 1fr);
-    margin-top: -2.5rem;
-  }
-  @media (max-width:900px){ .quick-nav{ grid-template-columns: repeat(3, 1fr); } }
-  @media (max-width:520px){ .quick-nav{ grid-template-columns: repeat(2, 1fr); } }
-  
-  .qitem{
-    position:relative; display:grid; place-items:center; gap:.35rem;
-    padding:1rem .5rem; text-align:center;
-    background:#0f2242; border:1px solid rgba(255,255,255,.08); border-radius:999px;
-    aspect-ratio: 1 / 1; overflow:hidden;
-    transition: transform .15s ease, box-shadow .15s ease;
-  }
-  .qitem:hover{ transform: translateY(-2px); box-shadow:0 10px 24px rgba(0,0,0,.35); }
-  .qemoji{ font-size:clamp(22px, 4.6vw, 28px); line-height:1; }
-  .qlabel{ font-weight:800; font-size:.95rem; color:#e8eeff; }
-  .qbadge{
-    position:absolute; left:.5rem; top:.4rem; transform: rotate(-8deg);
-    font-size:.75rem; font-weight:800; color:#0f2242; background:#ffbd99;
-    padding:.15rem .4rem; border-radius:.35rem; opacity:.95;
-  }
-  
-  /* ===== インタビュー・カルーセル ===== */
-  .carousel{
-    position:relative;
-    --peek: min(6vw, 90px);   /* 左右のチラ見え幅 */
-    --gap: 16px;
-  }
-  .carousel-viewport{ overflow:hidden; padding-inline: var(--peek); }
-  .carousel-track{
-    display:flex; align-items:stretch; gap: var(--gap);
-    will-change: transform; transition: transform .5s ease;
-  }
-  .carousel-card{
-    position:relative; flex:0 0 auto;
-    width: calc(100% - var(--peek)*2);       /* SPは1枚表示 */
-    aspect-ratio:16/9; border-radius:1rem; overflow:hidden;
-    background:linear-gradient(135deg,#1a2a4f,#0f2242);
-    box-shadow:0 10px 24px rgba(0,0,0,.35);
-    transition: transform .3s ease, box-shadow .3s ease;
-  }
-  .carousel-card img{ width:100%; height:100%; object-fit:cover; display:block; }
-  .carousel-title{
-    position:absolute; left:0; right:0; bottom:0;
-    padding:.8rem 1rem; color:#fff; font-weight:800; letter-spacing:.02em;
-    text-shadow: 0 1px 12px rgba(0,0,0,.35);
-    background: linear-gradient(to top, rgba(0,0,0,.45), rgba(0,0,0,0));
-  }
-  .carousel-card.is-center{ transform: scale(1.02); box-shadow: 0 14px 32px rgba(0,0,0,.45); }
-  
-  /* 操作ボタン */
-  .carousel-btn{
-    position:absolute; top:50%; transform: translateY(-50%);
-    width:44px; height:44px; border:none; border-radius:999px;
-    background:rgba(15,34,66,.9); color:#fff;
-    box-shadow: 0 6px 16px rgba(0,0,0,.35);
-    font-size:24px; line-height:1; cursor:pointer;
-    display:grid; place-items:center;
-  }
-  .carousel-btn:hover{ filter:brightness(1.05); }
-  .carousel-btn.prev{ left: .5rem; }
-  .carousel-btn.next{ right: .5rem; }
-  
-  /* PCでは3枚チラ見せ（カード幅を再計算） */
-  @media (min-width:900px){
-    .carousel-card{
-      width: calc((100% - var(--peek)*2 - var(--gap)*2) / 3); /* 3枚見せ */
-    }
-  }
-  
-  /* ========== Noren Intro ========== */
+   カラーテーマ
+================================ */
+:root{
+  --navy:#014C76;    /* 背景ネイビー */
+  --red:#A63515;     /* 明太の赤 */
+  --cream:#FFFBF1;   /* のれんのクリーム */
+  --fg:#F5F8FF;      /* 明るい文字 */
+  --muted:#B8C4DD;
+  --ring:0 0 0 3px rgba(147,197,253,.45);
+}
+
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,
+    "Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic",Meiryo,sans-serif;
+  color:var(--fg);
+  background:var(--navy);
+  line-height:1.7;
+}
+img{max-width:100%;height:auto;display:block;}
+a{color:#E8F2FF;text-decoration:none;}
+a:focus-visible{outline:none;box-shadow:var(--ring);border-radius:.5rem;}
+
+.container{width:min(1100px,92%);margin:0 auto;}
+.skip{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;}
+.skip:focus{left:1rem;top:1rem;width:auto;height:auto;background:#063a5a;padding:.5rem .75rem;border-radius:.5rem;box-shadow:var(--ring);}
+
+/* =========================
+   のれん：読み込み時アニメ
+========================= */
 .noren-intro{
-  position:fixed; inset:0; z-index:2000;
-  display:grid; place-items:center;
-  background:var(--bg, #0b1c34); /* 既存のネイビー変数があればそれに置換 */
-  /* 初期は静止。JSで .play が付いたらアニメ開始 */
-  pointer-events:none;
+  position:fixed;inset:0;z-index:4000;
+  display:block;pointer-events:none;
+  background:var(--navy);
 }
-.noren-intro .noren-frame{
-  position:absolute; inset:0;
-  display:grid; place-items:center;
+.noren-intro .noren-frame{position:absolute;inset:0;overflow:hidden;}
+.noren-intro img{
+  position:absolute;left:50%;bottom:0;transform:translateX(-50%);
+  width:100vw;height:100vh;height:100dvh;object-fit:cover;object-position:center bottom;
 }
-.noren-intro img{ max-width:100%; max-height:100%; width:100%; height:auto; }
+.noren-intro .noren-frame-1{opacity:1;}
+.noren-intro .noren-frame-2{opacity:0;transform:translateY(14px);}
 
-/* フレーム個別：1は最初に見せてから薄く、2は少し下からスッと上がってくる */
-.noren-intro.play .noren-frame-1{
-  animation: norenFade 1.6s ease forwards;
-}
-.noren-intro.play .noren-frame-2{
-  animation: norenReveal 1.6s ease forwards;
-  animation-delay: .25s; /* ちょい遅れてめくれ */
-}
+.noren-intro.play .noren-frame-1{animation:norenHoldAndFade 2.8s ease forwards;}
+.noren-intro.play .noren-frame-2{animation:norenReveal 2.5s ease forwards;animation-delay:1.8s;}
+.noren-intro.play{animation:norenOverlayOut .7s ease forwards;animation-delay:4.5s;}
 
-/* 全体のオーバーレイを最後にフェードアウトして非表示化 */
-.noren-intro.play{
-  animation: norenOverlayOut .7s ease forwards;
-  animation-delay: 1.7s; /* 2枚目が出きった後に消える */
-}
-
-@keyframes norenFade{
-  0%{ opacity:1; }
-  70%{ opacity:.35; }
-  100%{ opacity:0; }
+@keyframes norenHoldAndFade{
+  0%,64%{opacity:1;}
+  100%{opacity:0;}
 }
 @keyframes norenReveal{
-  0%{ transform: translateY(14px); opacity:0; }
-  50%{ opacity:1; }
-  100%{ transform: translateY(0); opacity:1; }
+  0%{transform:translateY(14px);opacity:0;}
+  50%{opacity:1;}
+  100%{transform:translateY(0);opacity:1;}
 }
-@keyframes norenOverlayOut{
-  to{ opacity:0; visibility:hidden; }
+@keyframes norenOverlayOut{to{opacity:0;visibility:hidden;}}
+@media (prefers-reduced-motion:reduce){
+  .noren-intro.play,.noren-intro.play .noren-frame-1,.noren-intro.play .noren-frame-2{animation:none;}
+  .noren-intro{display:none;}
+}
+body.no-scroll{overflow:hidden;touch-action:none;}
+
+/* =========================
+   右上ハンバーガー & ドロワー
+========================= */
+/* 赤い3本線のみ（白い台座なし） */
+.burger{
+  position:fixed;right:20px;top:20px;z-index:3000;
+  width:44px;height:34px;padding:0;border:none;cursor:pointer;
+  background:transparent;
+}
+.burger .bar,
+.burger::before,
+.burger::after{
+  content:"";display:block;width:28px;height:3px;
+  background:var(--red);border-radius:2px;margin:6px auto;
+}
+.burger:hover{filter:brightness(1.05);}
+
+.drawer{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;z-index:3500;}
+.drawer.open{display:block;}
+.drawer-panel{
+  position:absolute;left:0;right:0;top:0;
+  background:#083B5A;color:#E8EEFF;border-bottom-left-radius:1rem;border-bottom-right-radius:1rem;
+  box-shadow:0 10px 30px rgba(0,0,0,.35);transform:translateY(-16px);
+  animation:dropIn .22s ease forwards;padding:.75rem 0 1rem;
+}
+@keyframes dropIn{to{transform:translateY(0);}}
+.drawer-panel.closing{animation:dropOut .18s ease forwards;}
+@keyframes dropOut{from{transform:translateY(0);opacity:1;}to{transform:translateY(-16px);opacity:0;}}
+.drawer-close{
+  position:absolute;right:.6rem;top:.5rem;background:transparent;border:none;color:#E8EEFF;
+  font-size:1.6rem;line-height:1;cursor:pointer;padding:.25rem .4rem;border-radius:.5rem;
+}
+.drawer-links{display:grid;gap:.25rem;margin-top:.75rem;}
+.drawer-link{display:block;padding:1rem;border-top:1px solid rgba(255,255,255,.08);color:#E8EEFF;}
+.drawer-link:hover{background:rgba(255,255,255,.06);}
+
+/* =========================
+   Top Hero（のれん静止）
+========================= */
+.hero{position:relative;min-height:72vh;overflow:clip;background:var(--navy);}
+.noren-static{position:absolute;left:0;right:0;top:0;height:100%;z-index:0;display:block;}
+.noren-static img{width:100%;height:100%;object-fit:cover;object-position:center top;}
+
+.hero-inner{position:relative;z-index:1;color:#073a59;text-align:center;
+  padding-top:clamp(48px, 8vw, 120px);
+  padding-bottom:clamp(40px, 7vw, 100px);
+}
+.hero-logo{width:clamp(260px, 48vw, 640px);margin:0 auto .6rem;}
+.hero-copy{font-weight:700;letter-spacing:.02em;}
+.br-pc{display:none;}
+@media (min-width:900px){.br-pc{display:inline;}}
+
+/* =========================
+   共通セクション
+========================= */
+.section{padding:3rem 0;}
+.heading{font-size:clamp(22px,3.2vw,34px);margin:0 0 .75rem;color:#fff;font-weight:900;}
+.lead{color:#EAF2FF;max-width:70ch;margin:0 auto;}
+.hakata{color:#FFEED7;margin:0 0 .4rem;font-weight:800;opacity:.9}
+
+/* =========================
+   クイックボタン（赤いピル）
+========================= */
+.quick-buttons{background:var(--navy);padding:1rem 0 2rem;}
+.qgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+@media (max-width:900px){.qgrid{grid-template-columns:repeat(2,1fr);} }
+@media (max-width:560px){.qgrid{grid-template-columns:1fr;} }
+
+.qbtn{
+  display:flex;align-items:center;gap:.6rem;
+  background:var(--red);color:#fff;font-weight:800;
+  padding:.85rem 1.1rem;border-radius:999px;box-shadow:0 10px 24px rgba(0,0,0,.25);
+  border:1px solid rgba(0,0,0,.08);
+  transition:transform .15s ease, filter .15s ease;
+}
+.qbtn:hover{transform:translateY(-2px);filter:brightness(1.02);}
+.qbtn img{width:24px;height:24px;object-fit:contain;filter:invert(1) brightness(1.3);}
+
+/* =========================
+   木目背景（手引き）
+========================= */
+.wood{background:
+  linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,.0) 100%),
+  url("../images/mokume.webp");
+background-size:cover;background-position:center;}
+
+/* 白カード（短冊）＋直下パネル */
+.tanzaku-wrap{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:18px;margin:1rem 0 .75rem;
+}
+@media (max-width:900px){ .tanzaku-wrap{ grid-template-columns:repeat(2,1fr);} }
+@media (max-width:560px){ .tanzaku-wrap{ grid-template-columns:1fr;} }
+
+.tanzaku{
+  appearance:none;border:1px solid rgba(0,0,0,.08);background:#F7F5EE;color:#111;
+  padding:3.2rem .9rem;border-radius:10px;cursor:pointer;
+  font-weight:900;font-size:clamp(16px,2.4vw,22px);
+  writing-mode:vertical-rl;text-orientation:upright;letter-spacing:.08em;
+  box-shadow:0 8px 18px rgba(0,0,0,.08);
+  transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+.tanzaku:hover{ transform:translateY(-2px); box-shadow:0 12px 26px rgba(0,0,0,.12); }
+.tanzaku[aria-expanded="true"]{ border-color:var(--red); box-shadow:0 0 0 3px rgba(166,53,21,.2); }
+.tanzaku span{filter:drop-shadow(0 1px 1px rgba(0,0,0,.06));}
+
+/* 開閉パネル（スライド＋フェード） */
+.tpanel{
+  grid-column:1 / -1;
+  background:#0f2242;color:#E8EEFF;border-radius:12px;
+  margin-top:-6px;padding:0 1rem;
+  overflow:hidden;
+  max-height:0;opacity:0;transition:max-height .28s ease, opacity .28s ease, padding .28s ease;
+}
+.tpanel.show{
+  padding:1rem;max-height:420px;opacity:1; /* 高さはJSで都度上書き */
+}
+.tpanel p{ margin:.35rem 0; }
+
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.7rem 1.1rem;border-radius:999px;font-weight:700;border:1px solid rgba(255,255,255,.12);}
+.btn-primary{background:var(--red);color:#fff;border-color:var(--red);}
+.btn-ghost{background:transparent;color:#E8EEFF}
+
+/* =========================
+   カレンダー（木目→赤をまたぐカード）
+========================= */
+.calendar-wrap{background:
+  linear-gradient(to bottom, transparent 0 110px, var(--red) 110px 100%),
+  url("../images/mokume.webp");background-size:cover;background-position:center;}
+.calendar-card{
+  background:#eaecef;border-radius:32px;padding:0;box-shadow:0 18px 40px rgba(0,0,0,.25);
+  overflow:hidden;margin:1rem auto 0;max-width:1100px;min-height:560px;
+}
+.calendar-card iframe{width:100%;height:70vh;min-height:560px;border:0;}
+.center-to-btn{ text-align:center; margin:.2rem 0 .8rem; }
+.timetree{ font-size:.95rem; padding:.55rem .9rem; }
+
+/* =========================
+   アクセス
+========================= */
+.access-wrap{background:var(--red);}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:.6rem;}
+@media (max-width:900px){.grid-2{grid-template-columns:1fr;}}
+.card{background:rgba(255,255,255,.15);border-radius:18px;padding:12px;box-shadow:0 10px 24px rgba(0,0,0,.25);}
+.video{position:relative;width:100%;aspect-ratio:16/9;background:#dcdde1;border-radius:12px;overflow:hidden;}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+.v-caption{text-align:center;font-weight:800;margin:.4rem 0 0;color:#fff}
+
+/* =========================
+   インタビュー・カルーセル
+========================= */
+.interviews{background:
+  linear-gradient(to bottom, var(--red) 0 230px, var(--navy) 230px 100%);}
+.carousel{position:relative;--peek:min(6vw, 90px);--gap:16px;}
+.carousel-viewport{overflow:hidden;padding-inline:var(--peek);}
+.carousel-track{display:flex;gap:var(--gap);will-change:transform;transition:transform .5s ease;}
+.carousel-card{
+  position:relative;flex:0 0 auto;width:calc(100% - var(--peek)*2);
+  aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#d9d9d9;
+  box-shadow:0 10px 24px rgba(0,0,0,.35);
+}
+.carousel-card img{width:100%;height:100%;object-fit:cover;}
+.carousel-title{position:absolute;left:0;right:0;bottom:0;padding:.8rem 1rem;color:#fff;font-weight:900;text-shadow:0 1px 12px rgba(0,0,0,.35);background:linear-gradient(to top, rgba(0,0,0,.45), rgba(0,0,0,0));}
+.carousel-btn{
+  position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border:none;border-radius:999px;
+  background:rgba(15,34,66,.9);color:#fff;box-shadow:0 6px 16px rgba(0,0,0,.35);font-size:24px;cursor:pointer;display:grid;place-items:center;
+}
+.carousel-btn.prev{left:.5rem;} .carousel-btn.next{right:.5rem;}
+@media (min-width:900px){.carousel-card{width:calc((100% - var(--peek)*2 - var(--gap)*2)/3);}}
+
+/* =========================
+   ブログ
+========================= */
+.blog{background:var(--navy);}
+.note-grid{display:grid;grid-template-columns:1fr;gap:16px;}
+.note-card{display:block;border-radius:18px;overflow:hidden;background:#0f2242;border:1px solid rgba(255,255,255,.12);}
+.note-card img{width:100%;height:240px;object-fit:cover;}
+.note-title{display:block;padding:.85rem 1rem;font-weight:800;color:#fff}
+
+/* =========================
+   フッター
+========================= */
+footer{padding:2rem 0;color:#b9c6dc;border-top:1px solid rgba(255,255,255,.12);text-align:center;}
+
+/* =========================
+   提灯の飾り線（ネイビー→木目の境目）
+========================= */
+.chouchin-sep{
+  line-height:0;               /* 余白を出さない */
+  background:transparent;
+  margin: 0;                   /* セクションの間の余白は各セクション側で管理 */
+}
+.chouchin-sep img{
+  width:100%;
+  height:auto;
+  display:block;
+  /* たるみを抑えてピッタリ重ねたい場合は微調整（必要なら有効化） */
+  margin-bottom:-2px;
 }
 
-/* 動きを苦手とする環境への配慮 */
-@media (prefers-reduced-motion: reduce){
-  .noren-intro.play .noren-frame-1,
-  .noren-intro.play .noren-frame-2,
-  .noren-intro.play{
-    animation: none;
-  }
-  .noren-intro{ display:none; }
-}

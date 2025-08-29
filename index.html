@@ -3,261 +3,250 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
   <title>福岡で笑おう！</title>
   <meta name="description" content="福岡のお笑いライブ初心者向けガイド。行き方動画、手引き、カレンダー、インタビュー、ブログ。" />
   <link rel="icon" href="favicon.ico" />
-
   <meta property="og:title" content="福岡で笑おう！" />
   <meta property="og:description" content="福岡を第3のお笑いの街に。帰りに笑っていきんしゃい。" />
   <meta property="og:type" content="website" />
-
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
   <a class="skip" href="#main">本文へスキップ</a>
 
-  <!-- Intro Noren (responsive: SP/PC) -->
-<div class="noren-intro" aria-hidden="true">
-  <!-- 1枚目：のれん -->
-  <picture class="noren-frame noren-frame-1">
-    <source media="(min-width:768px)" srcset="images/noren_yoko.png">
-    <img src="images/noren_tate.png" alt="" />
-  </picture>
+  <!-- ========== のれん：読み込み時の2枚切替アニメ（ページ最前面） ========== -->
+  <div class="noren-intro" aria-hidden="true">
+    <!-- 1枚目：のれん -->
+    <picture class="noren-frame noren-frame-1">
+      <source media="(min-width:768px)" srcset="images/noren_yoko.png">
+      <img src="images/noren_tate.png" alt="" />
+    </picture>
+    <!-- 2枚目：めくれ -->
+    <picture class="noren-frame noren-frame-2">
+      <source media="(min-width:768px)" srcset="images/noren_yoko_mekure.png">
+      <img src="images/noren_tate_mekure.png" alt="" />
+    </picture>
+  </div>
 
-  <!-- 2枚目：めくれ -->
-  <picture class="noren-frame noren-frame-2">
-    <source media="(min-width:768px)" srcset="images/noren_yoko_mekure.png">
-    <img src="images/noren_tate_mekure.png" alt="" />
-  </picture>
+  <!-- ========== 右上：ハンバーガー（のれん上に重ねる） ========== -->
+  <button class="burger" aria-label="メニューを開く" aria-expanded="false" aria-controls="drawer">
+    <span class="bar" aria-hidden="true"></span>
+  </button>
+  <div class="drawer" id="drawer" aria-hidden="true" role="dialog" aria-label="メニュー">
+    <div class="drawer-panel" role="document">
+      <button class="drawer-close" aria-label="メニューを閉じる">×</button>
+      <nav class="drawer-links" aria-label="サイトメニュー">
+        <a href="#concept" class="drawer-link">ABOUT</a>
+        <a href="#guide" class="drawer-link">手引き</a>
+        <a href="#calendar" class="drawer-link">カレンダー</a>
+        <a href="#access" class="drawer-link">アクセス</a>
+        <a href="interview-list.html" class="drawer-link">インタビュー</a>
+        <a href="#blog" class="drawer-link">ブログ</a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ========================= Top Hero（のれん静止＋ロゴ＆コンセプト） ========================= -->
+  <section class="hero" id="top">
+    <!-- “めくれ済み”ののれんを最上部・左右ピッタリに表示（背景透過PNGが前提） -->
+    <picture class="noren-static">
+      <source media="(min-width:768px)" srcset="images/noren_yoko_mekure.png">
+      <img src="images/noren_tate_mekure.png" alt="" />
+    </picture>
+
+    <!-- ロゴ＆コンセプト（のれんの“白いめくれ”に重ならないよう上側に配置） -->
+    <div class="hero-inner container">
+      <img src="images/logo_navy.png" alt="福岡で笑おう！" class="hero-logo" width="1200" height="400" />
+      <p class="hero-copy">
+        「福岡で笑おう！」は、福岡のお笑いライブの情報を中心に発信するWebメディアです。東京大阪<br class="br-pc">
+        だけでなく福岡でもお笑いライブを日常的に楽しむことができることを知ってもらえるよう発<br class="br-pc">
+        信していきます！
+      </p>
+    </div>
+  </section>
+
+  <main id="main">
+    <!-- ========== 赤いピル型のクイックボタン（2段） ========== -->
+    <nav class="quick-buttons" aria-label="サイト内ショートカット">
+      
+<!-- 提灯の飾り線 -->
+<div class="chouchin-sep" aria-hidden="true">
+  <img src="images/chouchin_line.png" alt="">
 </div>
 
 
-  <header>
-    <div class="container nav">
-      <a href="index.html" aria-label="トップへ">
-        <img src="images/logo.png" alt="福岡で笑おう！ロゴ" class="logo-img" width="1100" height="400">
-      </a>
-
-      <nav class="menu" aria-label="グローバルメニュー">
-        <a href="#concept">ABOUT</a>
-        <a href="#guide">手引き</a>
-        <a href="#calendar">カレンダー</a>
-        <a href="#access">アクセス</a>
-        <a href="interview-list.html">インタビュー</a>
-        <a href="#blog">ブログ</a>
-      </nav>
-
-      <button class="menu-btn" aria-label="メニューを開く" aria-expanded="false" aria-controls="drawer">☰</button>
-    </div>
-
-    <!-- モバイルドロワー（JSと連動：ID/クラス名は既存のまま） -->
-    <div class="drawer" id="drawer" aria-hidden="true" role="dialog" aria-label="モバイルメニュー">
-      <div class="drawer-panel" role="document">
-        <button class="drawer-close" aria-label="メニューを閉じる">×</button>
-        <p class="drawer-title">メニュー</p>
-        <nav aria-label="モバイルメニュー">
-          <a class="drawer-link" href="#concept">ABOUT</a>
-          <a class="drawer-link" href="#guide">手引き</a>
-          <a class="drawer-link" href="#calendar">カレンダー</a>
-          <a class="drawer-link" href="#access">アクセス</a>
-          <a class="drawer-link" href="interview-list.html">インタビュー</a>
-          <a class="drawer-link" href="#blog">ブログ</a>
-        </nav>
+      <div class="container qgrid">
+        <a class="qbtn" href="#guide">
+          <img src="images/icon1.png" alt="" aria-hidden="true">
+          <span>どげん楽しむと？</span>
+        </a>
+        <a class="qbtn" href="#calendar">
+          <img src="images/icon2.png" alt="" aria-hidden="true">
+          <span>いつどこでやっとると？</span>
+        </a>
+        <a class="qbtn" href="#access">
+          <img src="images/icon3.png" alt="" aria-hidden="true">
+          <span>迷わんごと行きんしゃい！</span>
+        </a>
+        <a class="qbtn" href="interview-list.html">
+          <img src="images/icon4.png" alt="" aria-hidden="true">
+          <span>芸人さんの声ば聞いてみらんね！</span>
+        </a>
+        <a class="qbtn" href="#blog">
+          <img src="images/icon5.png" alt="" aria-hidden="true">
+          <span>行ってきたっちゃん！</span>
+        </a>
       </div>
-    </div>
-  </header>
-
-  <main id="main">
-    <!-- 1) のれん・ヒーロー（全画面） -->
-    <section class="noren-hero" aria-label="メインビジュアル">
-      <!-- 画像は後で images/noren.jpg を用意。今はプレースホルダー背景で表示されます -->
-      <div class="noren-overlay">
-        <h1 class="noren-title">福岡で笑おう！</h1>
-        <p class="noren-sub">ちょっと笑っていかんね！</p>
-        <a class="btn btn-primary noren-cta" href="#concept">下へスクロール</a>
-      </div>
-    </section>
-
-    <!-- 2) コンセプト -->
-    <section class="container section" id="concept">
-      <h2 class="concept-heading">帰りに笑っていきんしゃい</h2>
-      <p class="lead concept-text">
-        「福岡で笑おう！」は、福岡のお笑いライブの情報を中心に発信するWebメディアです。
-        東京・大阪だけでなく福岡でも、お笑いライブを日常的に楽しめることを知ってもらえるよう発信していきます！
-      </p>
-    </section>
-
-    <!-- 3) ジャンプ用・丸アイコン（ちょうちんイメージ） -->
-    <nav class="container quick-nav" aria-label="ページ内ジャンプ">
-      <!-- アイコンは後で差し替えOK。今は絵文字+文字で構成 -->
-      <a class="qitem" href="#guide" aria-label="手引きへ">
-        <span class="qbadge">どげん楽しむと？</span>
-        <span class="qemoji" aria-hidden="true">🎫</span>
-        <span class="qlabel">手引き</span>
-      </a>
-      <a class="qitem" href="#calendar" aria-label="カレンダーへ">
-        <span class="qbadge">今日はどこで？</span>
-        <span class="qemoji" aria-hidden="true">🗓️</span>
-        <span class="qlabel">カレンダー</span>
-      </a>
-      <a class="qitem" href="#access" aria-label="アクセスへ">
-        <span class="qbadge">迷わんごと！</span>
-        <span class="qemoji" aria-hidden="true">📍</span>
-        <span class="qlabel">アクセス</span>
-      </a>
-      <a class="qitem" href="interview-list.html" aria-label="インタビューへ">
-        <span class="qbadge">聞いてみらん？</span>
-        <span class="qemoji" aria-hidden="true">🎤</span>
-        <span class="qlabel">インタビュー</span>
-      </a>
-      <a class="qitem" href="#blog" aria-label="ブログへ">
-        <span class="qbadge">行ってきたっちゃん！</span>
-        <span class="qemoji" aria-hidden="true">✍️</span>
-        <span class="qlabel">ブログ</span>
-      </a>
     </nav>
 
-    <!-- 4) 手引き（トグル展開） -->
-    <section class="container section" id="guide">
-      <p class="hakata">どげん楽しむと？</p>
-      <h2>お笑いライブの手引き</h2>
-      <p class="sub">初めてでも大丈夫。以下の項目を開いて、さくっと把握！</p>
-
-      <div class="accordion" id="guide-acc">
-        <div class="acc-item">
-          <button class="acc-btn">1. なにをするの？ <span>＋</span></button>
-          <div class="acc-panel">
-            <p>ライブは“生の掛け合い”が醍醐味。ネタはもちろん、MCやハプニングも含めて楽しむ空間です。</p>
-            <p><a href="guide.html" class="btn btn-ghost">詳しくはこちら！</a></p>
-          </div>
-        </div>
-        <div class="acc-item">
-          <button class="acc-btn">2. どこで観られるの？ <span>＋</span></button>
-          <div class="acc-panel">
-            <p>福岡よしもと、ライブハウス秘密、甘棠館Show劇場など。企画ライブも随時開催！</p>
-            <p><a href="guide.html#where" class="btn btn-ghost">詳しくはこちら！</a></p>
-          </div>
-        </div>
-        <div class="acc-item">
-          <button class="acc-btn">3. いつやってるの？ <span>＋</span></button>
-          <div class="acc-panel">
-            <p>平日夜〜週末まで色々。直近はカレンダーでチェック！</p>
-            <p><a href="#calendar" class="btn btn-primary">カレンダーはこちら！</a></p>
-          </div>
-        </div>
-        <div class="acc-item">
-          <button class="acc-btn">4. チケットの買い方 <span>＋</span></button>
-          <div class="acc-panel">
-            <p>公式サイト／プレイガイド／当日券。入場順や整理番号もチェックしましょう。</p>
-            <p><a href="guide.html#ticket" class="btn btn-ghost">詳しくはこちら！</a></p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 5) カレンダー（TimeTree） -->
-    <section class="container section" id="calendar">
-      <p class="hakata">今日はどこであると？</p>
-      <h2>お笑いライブ情報カレンダー</h2>
-      <p class="sub">※ 埋め込みがブロックされる場合があります。見られないときは下のボタンから直接開いてください。</p>
-      <p style="text-align:center;margin-bottom:1rem;">
-        <a class="btn btn-primary" href="https://timetreeapp.com/public_calendars/fukuokadewaraou" target="_blank" rel="noopener">TimeTreeで開く</a>
-      </p>
-      <div class="embed-box" style="aspect-ratio:auto;border:none;padding:0;">
-        <iframe title="Calendar"
-          src="https://timetreeapp.com/public_calendars/fukuokadewaraou/embed/monthly?calendar_name=true&frame_color=%232ecc87"
-          style="width:100%;min-height:700px;aspect-ratio:680/720;border:none" loading="lazy"></iframe>
-      </div>
-    </section>
-
-    <!-- 6) アクセス（道順動画） -->
-    <section class="container section" id="access">
-      <p class="hakata">迷わんごと行きんしゃい！</p>
-      <h2>アクセス（劇場への道順動画）</h2>
-      <p class="sub">1〜2分のショート動画で迷わず到着。</p>
-      <div class="grid grid-2">
-        <article class="card">
-          <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_FUKUOKA_YOSHIMOTO" title="福岡よしもと への行き方" loading="lazy" allowfullscreen></iframe></div>
-          <div class="card-body"><h3>福岡よしもと</h3></div>
-        </article>
-        <article class="card">
-          <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_HIMITSU" title="ライブハウス秘密 への行き方" loading="lazy" allowfullscreen></iframe></div>
-          <div class="card-body"><h3>ライブハウス秘密</h3></div>
-        </article>
-        <article class="card">
-          <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_KANTOKAN" title="甘棠館Show劇場 への行き方" loading="lazy" allowfullscreen></iframe></div>
-          <div class="card-body"><h3>甘棠館Show劇場</h3></div>
-        </article>
-      </div>
-    </section>
-
-    <!-- 7) インタビュー（カルーセル：可変3枚表示） -->
-    <section class="container section" id="interviews">
-      <p class="hakata">芸人さんの声ば聞いてみらんね！</p>
-      <h2>インタビュー</h2>
-      <p class="sub">サムネが横に並び、自動でスライド。両端は画面幅に合わせてチラ見えします。</p>
-
-      <div class="carousel" data-autoplay="true" data-interval="4000">
-        <div class="carousel-viewport">
-          <div class="carousel-track">
-            <a class="carousel-card" href="interview/danablue.html">
-              <img src="images/danablue.jpg" alt="ダナブルー" loading="lazy">
-              <span class="carousel-title">ダナブルー</span>
-            </a>
-            <a class="carousel-card" href="interview/patchworkpanda.html">
-              <img src="images/patchworkpanda.jpg" alt="パッチワークパンダ" loading="lazy">
-              <span class="carousel-title">パッチワークパンダ</span>
-            </a>
-            <a class="carousel-card" href="interview/keisou.html">
-              <img src="images/keisou.jpg" alt="ケイソウ" loading="lazy">
-              <span class="carousel-title">ケイソウ</span>
-            </a>
-            <a class="carousel-card" href="interview/jiraigen.html">
-              <span class="carousel-title">地雷原突破</span>
-            </a>
-            <a class="carousel-card" href="interview/michieda.html">
-              <img src="images/michieda.jpg" alt="ミチエダ" loading="lazy">
-              <span class="carousel-title">ミチエダ</span>
-            </a>
-            <a class="carousel-card" href="interview/rhyme.html">
-              <span class="carousel-title">ライム11合</span>
-            </a>
-            <a class="carousel-card" href="interview/tashima.html">
-              <img src="images/tashima.jpg" alt="田島将" loading="lazy">
-              <span class="carousel-title">田島将</span>
-            </a>
-          </div>
-        </div>
-        <button class="carousel-btn prev" aria-label="前へ">‹</button>
-        <button class="carousel-btn next" aria-label="次へ">›</button>
-      </div>
-
-      <p style="text-align:center;margin-top:1rem;">
-        <a class="btn btn-ghost" href="interview-list.html">インタビュー一覧へ</a>
+    <!-- ========== ABOUT / コンセプト ========== -->
+    <section class="container section" id="concept">
+      <h2 class="heading">帰りに笑っていきんしゃい</h2>
+      <p class="lead concept-text">
+        「福岡で笑おう！」は、福岡のお笑いライブの情報を中心に発信するWebメディアです。東京・大阪だけでなく福岡でも、
+        お笑いライブを日常的に楽しめることを知ってもらえるよう発信していきます！
       </p>
     </section>
 
-    <!-- 8) ブログ（note へ） -->
-    <section class="container section" id="blog">
-      <p class="hakata">行ってきたっちゃん！</p>
-      <h2>ブログ（note）</h2>
-      <p class="sub">サムネからnote記事へジャンプします。</p>
+    <!-- ========== 手引き（木目背景：白カード＝アコーディオン本体） ========== -->
+    <section class="section wood" id="guide" aria-labelledby="guide-title">
+      <div class="container">
+        <p class="hakata">どげん楽しむと？</p>
+        <h2 class="heading" id="guide-title">お笑いライブの手引き</h2>
 
-      <div class="note-grid">
-        <!-- 例：URLとサムネは差し替えてください -->
-        <a class="note-card" href="https://note.com/your_name/n/EXAMPLE1" target="_blank" rel="noopener">
-          <img src="images/note_sample1.jpg" alt="ライブレポA">
-          <span class="note-title">【レポ】○月○日 ライブに行ってきた</span>
-        </a>
-        <a class="note-card" href="https://note.com/your_name/n/EXAMPLE2" target="_blank" rel="noopener">
-          <img src="images/note_sample2.jpg" alt="初めてのライブ指南">
-          <span class="note-title">初めてのお笑いライブのすすめ</span>
-        </a>
-        <a class="note-card" href="https://note.com/your_name/n/EXAMPLE3" target="_blank" rel="noopener">
-          <img src="images/note_sample3.jpg" alt="週末のおすすめ">
-          <span class="note-title">週末はここ行こ！おすすめ3選</span>
-        </a>
+        <!-- 白カード：クリックで直下の説明がスライド表示 -->
+        <div class="tanzaku-wrap" role="list">
+          <button class="tanzaku" role="listitem" aria-expanded="false">
+            <span>お笑いライブって<br>なんばしよっと？</span>
+          </button>
+          <div class="tpanel" hidden>
+            <p>漫才やコントなどのネタが見られたり、大喜利やモノボケなどの企画見られるライブがあります！それぞれの特徴を解説！</p>
+          </div>
+
+          <button class="tanzaku" role="listitem" aria-expanded="false">
+            <span>どこでやっとると？</span>
+          </button>
+          <div class="tpanel" hidden>
+            <p>福岡でお笑いライブが開催される場所を紹介します！</p>
+          </div>
+
+          <button class="tanzaku" role="listitem" aria-expanded="false">
+            <span>いつやっとると？</span>
+          </button>
+          <div class="tpanel" hidden>
+            <p>「福岡で笑おう！」のカレンダーでチェック！</p>
+            <p><a href="#calendar" class="btn btn-primary">カレンダーへ</a></p>
+          </div>
+
+          <button class="tanzaku" role="listitem" aria-expanded="false">
+            <span>チケットば<br>買わなんたい！</span>
+          </button>
+          <div class="tpanel" hidden>
+            <p>お笑いライブのチケットは500円〜3000円ほどで購入できます！買い方を解説します。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== カレンダー（TimeTree） ========== -->
+    <section class="section calendar-wrap" id="calendar">
+      <div class="container">
+        <p class="hakata">いつどこでやっとると？</p>
+        <h2 class="heading">カレンダー</h2>
+
+        <p class="center-to-btn">
+          <a class="btn btn-primary timetree" href="https://timetreeapp.com/public_calendars/fukuokadewaraou" target="_blank" rel="noopener">TimeTreeで開く</a>
+        </p>
+
+        <div class="calendar-card">
+          <iframe title="Calendar"
+            src="https://timetreeapp.com/public_calendars/fukuokadewaraou/embed/monthly?calendar_name=true&frame_color=%23014C76"
+            loading="lazy" referrerpolicy="no-referrer"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== アクセス（道順動画） ========== -->
+    <section class="section access-wrap" id="access">
+      <div class="container">
+        <p class="hakata">迷わんごと行きんしゃい！</p>
+        <h2 class="heading">アクセス</h2>
+
+        <div class="grid-2">
+          <article class="card">
+            <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_FUKUOKA_YOSHIMOTO" title="福岡よしもと への行き方" loading="lazy" allowfullscreen></iframe></div>
+            <p class="v-caption">よしもと福岡大和証券劇場</p>
+          </article>
+          <article class="card">
+            <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_HIMITSU" title="ライブハウス秘密 への行き方" loading="lazy" allowfullscreen></iframe></div>
+            <p class="v-caption">ライブハウス秘密</p>
+          </article>
+          <article class="card">
+            <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_KANTOKAN" title="甘棠館Show劇場 への行き方" loading="lazy" allowfullscreen></iframe></div>
+            <p class="v-caption">甘棠館Show劇場</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== インタビュー（横スライダー） ========== -->
+    <section class="section interviews" id="interviews">
+      <div class="container">
+        <p class="hakata">芸人さんの声ば聞いてみらんね！</p>
+        <h2 class="heading">インタビュー</h2>
+
+        <div class="carousel" data-autoplay="true" data-interval="4000">
+          <div class="carousel-viewport">
+            <div class="carousel-track">
+              <a class="carousel-card" href="interview/danablue.html">
+                <img src="images/danablue.jpg" alt="ダナブルー" loading="lazy">
+                <span class="carousel-title">ダナブルー</span>
+              </a>
+              <a class="carousel-card" href="interview/patchworkpanda.html">
+                <img src="images/patchworkpanda.jpg" alt="パッチワークパンダ" loading="lazy">
+                <span class="carousel-title">パッチワークパンダ</span>
+              </a>
+              <a class="carousel-card" href="interview/keisou.html">
+                <img src="images/keisou.jpg" alt="ケイソウ" loading="lazy">
+                <span class="carousel-title">ケイソウ</span>
+              </a>
+              <a class="carousel-card" href="interview/jiraigen.html">
+                <span class="carousel-title">地雷原突破</span>
+              </a>
+              <a class="carousel-card" href="interview/michieda.html">
+                <img src="images/michieda.jpg" alt="ミチエダ" loading="lazy">
+                <span class="carousel-title">ミチエダ</span>
+              </a>
+              <a class="carousel-card" href="interview/rhyme.html">
+                <span class="carousel-title">ライム11合</span>
+              </a>
+              <a class="carousel-card" href="interview/tashima.html">
+                <img src="images/tashima.jpg" alt="田島将" loading="lazy">
+                <span class="carousel-title">田島将</span>
+              </a>
+            </div>
+          </div>
+          <button class="carousel-btn prev" aria-label="前へ">‹</button>
+          <button class="carousel-btn next" aria-label="次へ">›</button>
+        </div>
+
+        <p style="text-align:center;margin-top:1rem;">
+          <a class="btn btn-ghost" href="interview-list.html">インタビュー一覧へ</a>
+        </p>
+      </div>
+    </section>
+
+    <!-- ========== ブログ（noteへ） ========== -->
+    <section class="section blog" id="blog">
+      <div class="container">
+        <p class="hakata">行ってきたっちゃん！</p>
+        <h2 class="heading">ブログ</h2>
+        <div class="note-grid">
+          <a class="note-card" href="https://note.com/your_name/n/EXAMPLE1" target="_blank" rel="noopener">
+            <img src="images/note_sample1.jpg" alt="ライブレポA">
+            <span class="note-title">【レポ】○月○日 ライブに行ってきた</span>
+          </a>
+        </div>
       </div>
     </section>
   </main>
